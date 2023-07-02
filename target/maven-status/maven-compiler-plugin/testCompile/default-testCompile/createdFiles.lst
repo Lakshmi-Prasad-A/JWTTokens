@@ -1,0 +1,4 @@
+com\insignia\JwtTokenAuthApplicationTests.class
+com\insignia\controller\JwtControllerTest.class
+com\insignia\dao\JwtDaoimlTest.class
+com\insignia\service\IJwtServiceImplTest.class

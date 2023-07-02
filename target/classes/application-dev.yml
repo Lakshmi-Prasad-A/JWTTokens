@@ -1,0 +1,24 @@
+errorCodes:
+  '403': your credentials are wrong
+  '500': internal server error
+  '406' : Some unexpected error has occured please contact your support team
+  '407' : Some unexpected error has occured please contact your support team
+ 
+  
+server:
+  port: 9081
+
+
+spring:
+  application:
+    name: COMPANY-SERVICE
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 
+    url: jdbc:mysql://localhost:8111/insignia
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
