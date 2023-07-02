@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.insignia.daoInterface.JwtDao;
+import com.insignia.entity.TokensEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.TokensEntity;
 import com.insignia.repository.TokensEntityRepo;
 import com.insignia.serviceInterface.IJwtService;
 import com.insignia.util.Constants;
@@ -25,29 +24,30 @@ public class IJwtServiceImpl implements IJwtService {
 	public AuthenticationResponse fetchExistTokenIfPresent(AuthenticationResponse authRes,
 			AuthenticationRequest authReq) throws Exception {
 
-		 Optional<List<TokensEntity>> tokenDetails = jwtdao.fetchTokendetails(authRes.getCustomerSeqNumber());
+		Optional<List<TokensEntity>> tokenDetails = jwtdao.fetchTokendetails(authRes.getCustomerSeqNumber());
 
 		if (tokenDetails.isPresent()) {
-			Optional<TokensEntity> isLongLivedToken = tokenDetails.get().stream().filter(p -> p.getIsLongLivedToken() && p.getTokenRevokedAt() == null).findFirst();
-			
+			Optional<TokensEntity> isLongLivedToken = tokenDetails.get().stream()
+					.filter(p -> p.getIsLongLivedToken() && p.getTokenRevokedAt() == null).findFirst();
+
 			if (isLongLivedToken.isPresent()) {
-				
+
 				longLivedToken(isLongLivedToken.get(), authRes);
-				
+
 				return authRes;
-			
+
 			} else {
-				
+
 				Optional<TokensEntity> activeJwtToken = tokenDetails.get().stream().filter(p -> !p.getIsTokenExpired()
 						&& p.getTokenRevokedAt() == null && p.getTokenExpiresAt().compareTo(new Date()) == 1)
 						.findFirst();
 
 				activeOrExpiredToken(activeJwtToken, authRes, authReq);
-				
+
 				return authRes;
 
 			}
-		}else {
+		} else {
 			createTokenDetails(authReq, authRes);
 			authRes.setTokenStatus(Constants.statusNewToken);
 			return authRes;
@@ -60,7 +60,7 @@ public class IJwtServiceImpl implements IJwtService {
 			authRes.setExpirationTime(activeJwtToken.get().getTokenExpiresAt());
 			authRes.setType(activeJwtToken.get().getTokenType());
 			authRes.setToken(activeJwtToken.get().getTokenDetails());
-			authRes.setTokenStatus(Constants.statusTokenNotExpired); 
+			authRes.setTokenStatus(Constants.statusTokenNotExpired);
 		} else {
 			deleteTokenDetails(authRes.getCustomerSeqNumber());
 			createTokenDetails(authReq, authRes);
@@ -76,11 +76,10 @@ public class IJwtServiceImpl implements IJwtService {
 		authRes.setTokenStatus(Constants.statusTokenLongLived);
 	}
 
-
 	public void updateTokenDetails(AuthenticationRequest authRequest, AuthenticationResponse authRes) {
 
 		jwtdao.updateTokenDetails(authRequest, authRes);
-		
+
 	}
 
 	public void deleteTokenDetails(Long seqNo) {
@@ -89,11 +88,6 @@ public class IJwtServiceImpl implements IJwtService {
 
 	public void createTokenDetails(AuthenticationRequest authRequest, AuthenticationResponse authRes) {
 		jwtdao.createTokenDetails(authRequest, authRes);
-	}
-	
-	public CustomerBasicDetailsEntity findByUserIdPassword(AuthenticationRequest authRequest ) {
-		return jwtdao.findByUserIdPassword(authRequest);
-		
 	}
 
 }

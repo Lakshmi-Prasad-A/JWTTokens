@@ -11,10 +11,10 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import com.insignia.entity.CustomerBasicDetailsEntity;
+import com.insignia.entity.TokensEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.TokensEntity;
 
 public interface JwtDao {
 	
@@ -28,7 +28,6 @@ public interface JwtDao {
 	public void createTokenDetails(AuthenticationRequest authRequest, AuthenticationResponse authRes);
 	
 	public CustomerBasicDetailsEntity findByUserName(String userName) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, ParseException;
-	
-	public CustomerBasicDetailsEntity findByUserIdPassword(AuthenticationRequest authRequest);
+
 
 }

@@ -1,4 +1,4 @@
-package com.insignia.model;
+package com.insignia.entity;
 
 import java.util.Date;
 
@@ -26,7 +26,7 @@ public class TokensEntity {
 	@Column(name="token_sequence_number")
 	private Long tokenSequenceNumber;
 
-	@Column(name="token_type")
+	@Column(name="token_type", nullable = false)
 	private String tokenType;
 
 	@Column(name="token_details")
@@ -58,7 +58,7 @@ public class TokensEntity {
 	
 	public TokensEntity( String tokenType, String tokenDetails, Date tokenExpiresAt,
 			Date tokenCreatedAt, Date tokenRevokedAt, Boolean isTokenExpired, Boolean isLongLivedToken,
-			com.insignia.model.CustomerBasicDetailsEntity customerBasicDetailsEntity) {
+			com.insignia.entity.CustomerBasicDetailsEntity customerBasicDetailsEntity) {
 		super();
 		this.tokenType = tokenType;
 		this.tokenDetails = tokenDetails;

@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.insignia.daoInterface.JwtDao;
-import com.insignia.model.CustomerBasicDetailsEntity;
+import com.insignia.entity.CustomerBasicDetailsEntity;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

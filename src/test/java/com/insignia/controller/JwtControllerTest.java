@@ -24,10 +24,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import com.insignia.daoInterface.JwtDao;
+import com.insignia.entity.CustomerBasicDetailsEntity;
+import com.insignia.entity.RolesAndPermissions;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.RolesAndPermissions;
 import com.insignia.serviceInterface.IJwtService;
 import com.insignia.userdetailsservice.CustomUserDetailsService;
 import com.insignia.util.JwtUtil;

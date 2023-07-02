@@ -1,4 +1,4 @@
-package com.insignia.model;
+package com.insignia.entity;
 
 import java.util.Date;
 

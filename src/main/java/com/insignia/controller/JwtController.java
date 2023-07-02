@@ -22,11 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.insignia.customExceptions.InvalidInputParametersException;
+import com.insignia.entity.CustomerBasicDetailsEntity;
+import com.insignia.entity.RolesAndPermissions;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.RolesAndPermissions;
-import com.insignia.model.UserModelClass;
 import com.insignia.serviceInterface.IJwtService;
 import com.insignia.stringValidator.StringValidation;
 import com.insignia.userdetailsservice.CustomUserDetailsService;
@@ -63,68 +62,34 @@ public class JwtController {
 	@Autowired
 	public RestTemplate restTemplate;
 
-//	@RequestMapping(value = "/oauth2authenticate", method = RequestMethod.POST)
-//	public ResponseEntity<?> createAuthenticationTokenByOAuth(@RequestBody AuthenticationRequest authenticationRequest)
-//			throws Exception {
-//System.err.println("user email id >>"+authenticationRequest.getEmailId());
-//		UserModelClass userModel = restTemplate.postForObject(
-//				"http://localhost:8083/getApplicationIdTenantId" + "/" + authenticationRequest.getEmailId(), null,
-//				UserModelClass.class);
-//
-//		if (userModel == null) {
-//			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//					.body(new AuthenticationResponse(Constants.errorCode403, UNAUTHORIZED));
-//		}
-//		authenticationRequest.setApplicationId(userModel.getApplicationId());
-//		authenticationRequest.setTenantId(userModel.getTenantId());
-//
-//		if (userModel.getCustomerId() == null) {
-//			authenticationRequest.setUserId(authenticationRequest.getEmailId());
-//
-//		} else {
-//			authenticationRequest.setUserId(userModel.getCustomerId());
-//		}
-//
-//		CustomerBasicDetailsEntity userDetails = service.findByUserIdPassword(authenticationRequest);
-//
-//		if (userDetails == null) {
-//
-//			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//					.body(new AuthenticationResponse(Constants.errorCode403, UNAUTHORIZED));
-//
-//		}
-//
-//		authenticationRequest.setPassword(userDetails.getCustomerPassword());
-//		authenticationRequest.setUserId(userDetails.getCustomerId());
-//
-//		return createAuthenticationToken(authenticationRequest);
-//	}
-
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
 			throws Exception {
 		AuthenticationResponse authResp = new AuthenticationResponse();
-		UserDetails userDetails =null;
-		String customeUserName=null;
+		UserDetails userDetails = null;
+		String customeUserName = null;
 		try {
-			
-			if(authenticationRequest.getIsToValidatePassword()&&authenticationRequest.getEmailId()!=null) {
-				userDetails=userDetailsService.loadUserByUsername(authenticationRequest.getEmailId());
-				authenticationRequest.setPassword(userDetailsService.getCustomerBasicDetailsEntity().getCustomerPassword());
+
+			if (authenticationRequest.getIsToValidatePassword() && authenticationRequest.getEmailId() != null) {
+				userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmailId());
+				authenticationRequest
+						.setPassword(userDetailsService.getCustomerBasicDetailsEntity().getCustomerPassword());
 				authenticationRequest.setExpirationTime(60);
-				customeUserName=authenticationRequest.getEmailId();
-			}else {
+				customeUserName = authenticationRequest.getEmailId();
+			} else {
 				StringValidation.ValidateUserId(authenticationRequest.getUserId(), Constants.userIdlength);
 
 				StringValidation.ValidateApplicationId(authenticationRequest.getApplicationId(),
 						Constants.applicationIdlength);
 				StringValidation.ValidateTenantId(authenticationRequest.getTenantId(), Constants.tenantIdlength);
-				userDetails=userDetailsService.loadUserByUsername(authenticationRequest.getCustomeUserName());
-				customeUserName=authenticationRequest.getCustomeUserName();
+				StringValidation.ValidatePassword(authenticationRequest.getPassword(),Constants.passwordlength );
+				
+				userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getCustomeUserName());
+				customeUserName = authenticationRequest.getCustomeUserName();
 			}
 
 			CustomerBasicDetailsEntity customerBasicData = userDetailsService.getCustomerBasicDetailsEntity();
-			if (!authenticationRequest.getIsToValidatePassword()&&customerBasicData != null
+			if (!authenticationRequest.getIsToValidatePassword() && customerBasicData != null
 					&& !userDetails.getPassword().equalsIgnoreCase(authenticationRequest.getPassword())) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 						.body(new AuthenticationResponse(Constants.errorCode403, UNAUTHORIZED));
@@ -145,9 +110,9 @@ public class JwtController {
 				authResp.setRolesAndPermissions(customerBasicData.getRolesAndPermissions().get(0));
 				return ResponseEntity.ok(authResp);
 			}
-			
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					customeUserName, authenticationRequest.getPassword()));
+
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(customeUserName, authenticationRequest.getPassword()));
 
 			final String jwt = jwtTokenUtil.generateToken(userDetails, authenticationRequest.getExpirationTime());
 			authResp.setToken(jwt);
@@ -172,7 +137,8 @@ public class JwtController {
 					.body(new AuthenticationResponse(Constants.errorCode403, UNAUTHORIZED));
 
 		} catch (Exception e) {
-			if (e.getCause()!=null && ( e.getCause().equals(InvalidKeyException.class) || e.getCause().equals(NoSuchAlgorithmException.class)
+			if (e.getCause() != null && (e.getCause().equals(InvalidKeyException.class)
+					|| e.getCause().equals(NoSuchAlgorithmException.class)
 					|| e.getCause().equals(NoSuchPaddingException.class)
 					|| e.getCause().equals(IllegalBlockSizeException.class)
 					|| e.getCause().equals(BadPaddingException.class))) {

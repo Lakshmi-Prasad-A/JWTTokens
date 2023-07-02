@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.insignia.entity.RolesAndPermissions;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationResponse implements Serializable {

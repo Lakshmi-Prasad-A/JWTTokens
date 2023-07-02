@@ -23,11 +23,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.insignia.daoImpl.JwtDaoImpl;
+import com.insignia.entity.CustomerBasicDetailsEntity;
+import com.insignia.entity.RolesAndPermissions;
+import com.insignia.entity.TokensEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.RolesAndPermissions;
-import com.insignia.model.TokensEntity;
 import com.insignia.repository.CustomerBasicDetailsRepo;
 import com.insignia.repository.TokensEntityRepo;
 

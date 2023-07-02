@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.insignia.daoInterface.JwtDao;
 import com.insignia.decryption.PasswordDecoder;
+import com.insignia.entity.CustomerBasicDetailsEntity;
+import com.insignia.entity.RolesAndPermissions;
+import com.insignia.entity.TokensEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
-import com.insignia.model.RolesAndPermissions;
-import com.insignia.model.TokensEntity;
 import com.insignia.repository.CustomerBasicDetailsRepo;
 import com.insignia.repository.TokensEntityRepo;
 import com.insignia.util.Constants;
@@ -57,8 +57,6 @@ public class JwtDaoImpl implements JwtDao {
 		if (!resultList.isEmpty()) {
 			Object[] custObj = resultList.get(0);
 			RolesAndPermissions rolesAndPermissions = new RolesAndPermissions();
-			// List<RolesAndPermissions> rolesAndPermissions =
-			// cbde.getRolesAndPermissions();
 			cbde.setUserName(custObj[0] != null ? String.valueOf(custObj[0]) : null);
 			cbde.setCustomerPassword(
 					custObj[1] != null ? (custObj[1]!="" ? PasswordDecoder.getDecryptedPassword(String.valueOf(custObj[1])):custObj[1].toString()) : null);
@@ -138,28 +136,6 @@ public class JwtDaoImpl implements JwtDao {
 		authRes.setCustomerSeqNumber(authRes.getCustomerSeqNumber());
 		authRes.setTokenStatus(Constants.statusCreated);
 
-	}
-
-	public CustomerBasicDetailsEntity findByUserIdPassword(AuthenticationRequest authRequest) {
-
-		List<Object[]> resultList = customerRepo.fetchUserIdPasswordUserId(authRequest.getEmailId(),
-				authRequest.getTenantId(), authRequest.getApplicationId(), authRequest.getUserId());
-
-		CustomerBasicDetailsEntity cbde = null;
-		try {
-			if (!resultList.isEmpty()) {
-				Object[] custObj = resultList.get(0);
-				cbde = new CustomerBasicDetailsEntity();
-				cbde.setUserName(custObj[0] != null ? String.valueOf(custObj[0]) : null);
-				cbde.setCustomerPassword(
-						custObj[1] != null ? PasswordDecoder.getDecryptedPassword(String.valueOf(custObj[1])) : null);
-				cbde.setCustomerId(custObj[2] != null ? String.valueOf(custObj[2]) : null);
-			}
-
-		} catch (Exception e) {
-
-		}
-		return cbde;
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.insignia.serviceInterface;
 
+import com.insignia.entity.CustomerBasicDetailsEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.CustomerBasicDetailsEntity;
 
 public interface IJwtService {
 
@@ -13,7 +13,5 @@ public interface IJwtService {
 	public void createTokenDetails(AuthenticationRequest authRequest, AuthenticationResponse authRes);
 
 	public AuthenticationResponse fetchExistTokenIfPresent(AuthenticationResponse authRes, AuthenticationRequest authReq) throws Exception;
-	
-	public CustomerBasicDetailsEntity findByUserIdPassword(AuthenticationRequest authRequest);
 
 }

@@ -19,9 +19,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.insignia.daoInterface.JwtDao;
+import com.insignia.entity.TokensEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
-import com.insignia.model.TokensEntity;
 import com.insignia.serviceImpl.IJwtServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
