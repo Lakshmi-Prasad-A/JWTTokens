@@ -1,6 +1,5 @@
 package com.insignia.serviceInterface;
 
-import com.insignia.entity.CustomerBasicDetailsEntity;
 import com.insignia.model.AuthenticationRequest;
 import com.insignia.model.AuthenticationResponse;
 

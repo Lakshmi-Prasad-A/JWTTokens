@@ -2,10 +2,6 @@ package com.insignia.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Generated;
-import javax.management.relation.Role;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,13 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.GrantedAuthority;
-
-import com.fasterxml.jackson.annotation.JsonAlias;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,19 +29,19 @@ public class CustomerBasicDetailsEntity {
 	@Column(name = "sequence_number", nullable = false)
 	private Long sequenceNumber;
 
-	@Column(name = "application_id", nullable = false)
+	@Column(name = "application_id")
 	private String applicationId;
 
-	@Column(name = "tenant_id", nullable = false)
+	@Column(name = "tenant_id")
 	private String tenantId;
 
-	@Column(name = "customer_id", unique = true, nullable = false)
+	@Column(name = "customer_id", unique = true)
 	private String customerId;
 
-	@Column(name = "customer_password", nullable = false)
+	@Column(name = "customer_password")
 	private String customerPassword;
 
-	@Column(name = "customer_email", unique = true, nullable = false)
+	@Column(name = "customer_email", unique = true)
 	private String customerEmail;
 
 	private String userName;

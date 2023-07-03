@@ -46,7 +46,7 @@ public class JwtDaoImpl implements JwtDao {
 	public CustomerBasicDetailsEntity findByUserName(String userName)
 			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException,
 			BadPaddingException, ParseException {
-
+		
 		List<Object[]> resultList = customerRepo.fetchUserDetails(userName);
 
 		CustomerBasicDetailsEntity cbde = new CustomerBasicDetailsEntity();

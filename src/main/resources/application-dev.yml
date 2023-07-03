@@ -4,21 +4,24 @@ errorCodes:
   '406' : Some unexpected error has occured please contact your support team
   '407' : Some unexpected error has occured please contact your support team
  
+ 
+defaultTokenExpirationTime : 15
   
 server:
   port: 9081
-
-
+  
+  
 spring:
   application:
     name: COMPANY-SERVICE
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: 
-    url: jdbc:mysql://localhost:8111/insignia
-    username: root
+    password: octopus6#Bid7
+    url: jdbc:mysql://132.226.130.209:3306/micro
+    username: techteam
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
+

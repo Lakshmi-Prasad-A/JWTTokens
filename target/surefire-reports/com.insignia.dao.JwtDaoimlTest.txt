@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.insignia.dao.JwtDaoimlTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.783 s - in com.insignia.dao.JwtDaoimlTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.22 s - in com.insignia.dao.JwtDaoimlTest

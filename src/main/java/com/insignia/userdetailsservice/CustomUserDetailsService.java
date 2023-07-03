@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-
+		
 		try {
 			userDetails = jwtDao.findByUserName(s);
 

@@ -60,7 +60,9 @@ public class JwtDaoimlTest {
 		authReq.setRememberMeSelected(false);
 		authReq.setTenantId("254");
 		authReq.setUserId("125");
+		authReq.setApplicationId("Cars007");
 		authReq.setExpirationTime(30);
+		authReq.setIsToValidatePassword(false);
 
 		authRes.setCustomerSeqNumber(12l);
 		authRes.setToken("25452");
@@ -90,7 +92,6 @@ public class JwtDaoimlTest {
 
 		CustomerBasicDetailsEntity expectedCustomeObj = new CustomerBasicDetailsEntity();
 		expectedCustomeObj.setUserName("1841255252");
-		//expectedCustomeObj.setRoleName("admin");
 		expectedCustomeObj.setCustomerPassword("tech");
 
 		CustomerBasicDetailsEntity actualCustomeObj = new JwtDaoImpl(tokenRepo, customerRepo)

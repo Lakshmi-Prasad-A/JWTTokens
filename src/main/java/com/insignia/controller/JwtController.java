@@ -58,6 +58,9 @@ public class JwtController {
 
 	@Value("${errorCodes.407}")
 	private String unexpectedError;
+	
+	@Value("${defaultTokenExpirationTime}")
+	private Integer defaultTokenExpirationTime;
 
 	@Autowired
 	public RestTemplate restTemplate;
@@ -68,13 +71,14 @@ public class JwtController {
 		AuthenticationResponse authResp = new AuthenticationResponse();
 		UserDetails userDetails = null;
 		String customeUserName = null;
+		
 		try {
-
+			
 			if (authenticationRequest.getIsToValidatePassword() && authenticationRequest.getEmailId() != null) {
 				userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmailId());
 				authenticationRequest
 						.setPassword(userDetailsService.getCustomerBasicDetailsEntity().getCustomerPassword());
-				authenticationRequest.setExpirationTime(60);
+				authenticationRequest.setExpirationTime(defaultTokenExpirationTime);
 				customeUserName = authenticationRequest.getEmailId();
 			} else {
 				StringValidation.ValidateUserId(authenticationRequest.getUserId(), Constants.userIdlength);
@@ -84,6 +88,7 @@ public class JwtController {
 				StringValidation.ValidateTenantId(authenticationRequest.getTenantId(), Constants.tenantIdlength);
 				StringValidation.ValidatePassword(authenticationRequest.getPassword(),Constants.passwordlength );
 				
+				authenticationRequest.setExpirationTime(authenticationRequest.getExpirationTime()!=null ? authenticationRequest.getExpirationTime() : defaultTokenExpirationTime);
 				userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getCustomeUserName());
 				customeUserName = authenticationRequest.getCustomeUserName();
 			}
